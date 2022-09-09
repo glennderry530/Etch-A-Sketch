@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+*{ border: 1px solid black;} /* for troubleshooting */
+
+body {
+    margin: 0;
+    font-family: Roboto, sans-serif;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+ #header {
+    max-height: 10%;
+    background-color: #1f2937;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+}
+
+.logo {
+    display: flex;
+    color: #F9FAF9;
+    font-size: 24px;
+    margin: 0;
+}
+
+#hero {
+    border: 2px solid green;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    flex-flow: row wrap-reverse;
+    justify-content: space-evenly;
+}
+
+#tools {
+    border: 2px solid blue;
+    width: fit-content;
+    margin: none;
+    padding: 2em;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tool {
+    border: 2px solid magenta;
+    display: flex;
+    justify-content: center;
+}
+
+.selector {
+    width:10em;
+    height: 3em;
+    color: #F9FAF8;
+    background: #3882f6;
+    margin: 1.1em;
+    border: none;
+    border-radius: 10px;
+}
+
+#gridContainer {
+    border: 3px solid orange;
+    height: 300px;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+#grid{
+    border: 2px solid cyan;
+    margin: 0%;
+    display: flex;
+    flex: 1;
+}
+
+.cells {
+    border: 2px solid burlywood;
+    display: flex;
+    flex: 1;
+}
+
+.column {
+   /* border: 1px solid grey;*/
+    height: 1em;
+    width: 1em;
+}
+
+.row {
+     /* border: 1px solid grey;*/
+    background: rgb(251, 241, 164);
+    text-align: center;
+    height: 1em;
+    width: 1em;
+}
+
+#footer {
+    max-height: 10%;
+    background-color: #1f2937;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+}
