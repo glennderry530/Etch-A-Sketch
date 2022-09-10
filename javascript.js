@@ -16,6 +16,7 @@ function createGrid(rowtot) {
     for (let i = 1; i <= celltot; i++) {
         let cell = document.createElement('div');
         cell.setAttribute("id", "cell");
+        cell.setAttribute("class", "cell");
         cell.style.border = '1px solid lightgrey';
         cell.style.gridRow = row;
         cell.style.gridColumn = column;
@@ -28,24 +29,35 @@ function createGrid(rowtot) {
         }
         gridContainer.appendChild(cell);
     };
-        
+    
 };
    
 createGrid (16);
 
 
+const color = ('red'); 
 
-/*  FIX THIS SECTION
-let color = "red"
-
-let cells = document.getElementById('cell');
-cells.addEventListener("mouseover", func, false);
-cells.addEventListener("mouseout", func1, false);
-
-function func() {
-    cells.setAttribute("style", "background-color:blue;")
+function changeGridColor (e) {
+    
+    e.style.backgroundColor=color;
 }
-function func1() {
-    cells.setAttribute("style", "background-color:green;")
+
+// "is mouse button down section" - from here https://tinyurl.com/58574ep6
+let primaryMouseButtonDown = false;
+
+function setPrimaryButtonState(e) {
+  let flags = e.buttons !== undefined ? e.buttons : e.which;
+  primaryMouseButtonDown = (flags & 1) === 1;
 }
-*/
+
+document.addEventListener("mousedown", setPrimaryButtonState);
+document.addEventListener("mousemove", setPrimaryButtonState);
+document.addEventListener("mouseup", setPrimaryButtonState);
+// "end of is mouse button down section"
+
+
+document.addEventListener('mousemove', function(e) {
+    if(e.target && e.target.id== ('cell') && primaryMouseButtonDown === true){
+        changeGridColor (e.target)
+    }
+});
