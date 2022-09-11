@@ -13,19 +13,33 @@
 
     <div id="hero">
     
-        <div id="tools">
-            <div class="tool"><button id="colorPicker" class="selector">colorPicker</button></div>
-            <div class="tool"><button id="eraser" class="selector">eraser</button></div>
-            <div class="tool"><button id="clearGrids" class="selector">clearGrids</button></div>
-        </div>
         <div id="gridHolder">
             <div class = "grid"></div>
         </div>
+        <div id="tools">
+            <div class="tool">
+                <label for="color" id="penLabel" class="label">pen</label>
+                <input type="color" id="colorPicker" value="#222222">
+            </div>
+            <div class ="tool">
+                <label for="eraser" id="eraserLabel" class="label">eraser</label>
+                <button id="eraser" class="button">eraser</button>
+            </div>
+            <div class = "tool">
+                <label for="clearButton" id="clearLabel" class="label">clear</label>
+                <button id="clearButton" class="button">clear</button>
+            </div>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="60" value="16" class="slider" id="myRange">
+                <p id="numGrids"></p>
+              </div>
+        </div>
+        
 
 
     </div>
 
-    <div id="footer" class="logo">Footer</div>
+    <div id="footer" class="logo">TOP Etch-A-Skecth Project</div>
 
     <script>
 
