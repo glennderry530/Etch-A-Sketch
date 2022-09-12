@@ -13,11 +13,6 @@ const colorPicker = document.getElementById("colorPicker");
 const clearButton = document.getElementById("clearButton");
 const eraser = document.getElementById("eraser");
 
-const penLabel = document.getElementById("penLabel");
-const eraserLabel = document.getElementById("eraserLabel");
-const clearLabel = document.getElementById("clearLabel");
-
-
 colorPicker.onchange = function () {changePenColor(colorPicker.value)};
 
 function changePenColor (newColor) {currentColor = newColor};
@@ -28,22 +23,22 @@ clearButton.onclick = function () {
     changeGridSize(currentGridSize); changePenColor(colorPicker.value);
 };
 
-function toolSelect(newTool){
-    changeTool(newTool);
-    currentTool = newTool;
-    console.log(newTool);
-};
 
-function changeTool(toolChoice){
-if (toolChoice = colorPicker) {
-    penLabel.style.fontWeight = 'bold';
-} else if (toolChoice = eraser) {
-    eraser.style.fontWeight = 'bold';
-} else if (toolChoice = clearButton) {
-    clearButton.style.fontWeight = 'bold';
-}
-}
+let prevButton = null;
 
+const tools = document.getElementById("tools");
+
+tools.addEventListener('click', (e) => {
+  const isButton = e.target.nodeName === 'BUTTON' || 'INPUT'; 
+  if (!isButton) {
+    return;
+  } else e.target.classList.add('active'); // Add .active CSS Class
+
+  if(prevButton !== null) {
+    prevButton.classList.remove('active');  // Remove .active CSS Class
+  }
+  prevButton = e.target;
+});
 
 //Slider Section
 const slider = document.getElementById("myRange");
@@ -113,6 +108,5 @@ document.addEventListener('mousemove', function(e) {
 
 window.onload = () => {
     createGrid(DEFAULT_SIZE);
-    toolSelect(DEFAULT_TOOL);
 }
 
