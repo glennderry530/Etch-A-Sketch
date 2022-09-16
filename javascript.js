@@ -1,6 +1,6 @@
 const DEFAULT_SIZE = 16;
 const DEFAULT_COLOR = "#222222";
-const DEFAULT_BGCOLOR = "#CCCCCC";
+const DEFAULT_BGCOLOR = "#A0A0A0";
 const DEFAULT_TOOL = "penTool";
 
 let currentTool = DEFAULT_TOOL;
@@ -8,29 +8,50 @@ let currentColor = DEFAULT_COLOR;
 let currentGridSize = DEFAULT_SIZE;
 let currentBGColor = DEFAULT_BGCOLOR;
 
-
 const gridContainer = document.querySelector(".grid");
 const penTool = document.getElementById("penTool");
 const penLabel = document.getElementById("penLabel");
+const rainbow = document.getElementById("rainbow");
 const clearButton = document.getElementById("clearButton");
 const eraser = document.getElementById("eraser");
 const bgPicker = document.getElementById("bgPicker");
-const tools = [penTool, eraser, clearButton];
+const bgLabel = document.getElementById("bgLabel");
+const tools = [penLabel, rainbow ,eraser, clearButton, bgLabel];
+
+
+function randomColorGen() {
+  return Math.floor(Math.random()*16777215).toString(16);
+};
 
 penTool.onclick = () => {
   removeActive();
-  penTool.classList.toggle("active");
+  currentColor=penTool.value;
   currentTool = penTool;
+  toolChoice();
 };
 
 penTool.onchange = function () {
+  currentColor=penTool.value;
+  currentTool = penTool;
+  toolChoice();
+};
+
+bgPicker.onclick = () => {
+  currentBGColor=bgPicker.value;
+  currentTool = bgPicker;
+  toolChoice();
+};
+
+bgPicker.onchange = function () {
+  currentBGColor=bgPicker.value;
+  gridContainer.style.backgroundColor = bgPicker.value;
+  bgLabel.style.backgroundColor = bgPicker.value;
   toolChoice();
 };
 
 
 eraser.onclick = () =>  {
   removeActive();
-  eraser.classList.toggle("active");
   currentTool = eraser;
   toolChoice();
 };
@@ -43,13 +64,12 @@ clearButton.onclick = function () {
 
 function toolChoice() {
   if (currentTool == penTool) {
-    changePenColor(penTool.value);
+    changePenColor(currentColor);
+    penLabel.classList.add("active");
     }
   if (currentTool == eraser) {
     changePenColor("");
-  }
-  if (currentTool == bgColor) {
-    changeBGColor(bgPicker.value)
+    eraser.classList.add("active");
   }
 }
 
@@ -58,14 +78,10 @@ function changePenColor(newColor) {
   currentColor = newColor;
 }
 
-function changeBGColor(newColor) {
-  currentBGColor = newColor;
-}
 
 function removeActive() {
   let i = 0;
   for (i = 0; i < tools.length; i++) {
-    console.log(i);
     tools[i].classList.remove("active");
   }
 }
@@ -83,6 +99,9 @@ slider.onchange = function () {
   changeGridSize(this.value);
 };
 
+
+
+//Grid Section
 function changeGridSize(total) {
   currentGridSize = total;
   clearGrid();
@@ -90,7 +109,7 @@ function changeGridSize(total) {
 }
 
 function clearGrid() {
-  document.querySelector(".grid").innerHTML = "";
+  gridContainer.innerHTML = "";
 }
 
 //Create grids - from https://tinyurl.com/mrxutdkn
@@ -108,8 +127,10 @@ function createGrid(size) {
   }
 }
 
-function changeGridColor(e) {
+function changeCellColor(e) {
+  currentColor = randomColorGen(); 
   e.style.backgroundColor = currentColor;
+  //add rainbow logic here
 }
 
 // "is mouse button down section" - https://tinyurl.com/58574ep6 (this section could definatly be better)
@@ -127,11 +148,12 @@ document.addEventListener("mouseup", setPrimaryButtonState);
 
 gridContainer.addEventListener("mousemove", function (e) {
   if (e.target && e.target.id == "cell" && primaryMouseButtonDown === true) {
-    changeGridColor(e.target);
+    changeCellColor(e.target);
   }
 });
 
 window.onload = () => {
   createGrid(DEFAULT_SIZE);
+  penLabel.classList.add("active");
   toolChoice();
 };
