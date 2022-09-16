@@ -127,28 +127,30 @@ function createGrid(size) {
   }
 }
 
+//add rainbow logic here currentColor = randomColorGen(); 
+
 function changeCellColor(e) {
-  currentColor = randomColorGen(); 
   e.style.backgroundColor = currentColor;
-  //add rainbow logic here
 }
 
-// "is mouse button down section" - https://tinyurl.com/58574ep6 (this section could definatly be better)
-let primaryMouseButtonDown = false;
 
-function setPrimaryButtonState(e) {
-  let flags = e.buttons !== undefined ? e.buttons : e.which;
-  primaryMouseButtonDown = (flags & 1) === 1;
-}
+//This section tells me if the mouse is being held down
+let mouseDown = 0;
+document.onmousedown = () => {
+  ++mouseDown;
+  console.log(mouseDown)
+};
 
-document.addEventListener("mousedown", setPrimaryButtonState);
-document.addEventListener("mousemove", setPrimaryButtonState);
-document.addEventListener("mouseup", setPrimaryButtonState);
-// "end of is mouse button down section"
+document.onmouseup = () => {
+  mouseDown = false;
+  console.log(mouseDown)
+};
 
-gridContainer.addEventListener("mousemove", function (e) {
-  if (e.target && e.target.id == "cell" && primaryMouseButtonDown === true) {
-    changeCellColor(e.target);
+gridContainer.addEventListener('mouseover', function (e) {
+  if (e.target.id == "cell") {cell = e.target};
+  cell.onclick = () => changeCellColor(cell);
+  if (cell && mouseDown == true) {
+    changeCellColor(cell);
   }
 });
 
