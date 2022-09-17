@@ -25,20 +25,24 @@ function randomColorGen() {
 
 penTool.onclick = () => {
   removeActive();
-  currentColor=penTool.value;
+  currentColor = penTool.value;
   currentTool = penTool;
+  mouseDown = 0;
   toolChoice();
 };
 
 penTool.onchange = function () {
-  currentColor=penTool.value;
+  currentColor = penTool.value;
   currentTool = penTool;
+  mouseDown = 0;
   toolChoice();
 };
 
 bgPicker.onclick = () => {
+  removeActive();
   currentBGColor=bgPicker.value;
   currentTool = bgPicker;
+  mouseDown = 0;
   toolChoice();
 };
 
@@ -46,19 +50,35 @@ bgPicker.onchange = function () {
   currentBGColor=bgPicker.value;
   gridContainer.style.backgroundColor = bgPicker.value;
   bgLabel.style.backgroundColor = bgPicker.value;
+  currentTool = penTool;
+  currentColor = currentColor = penTool.value;
+  mouseDown = 0;
   toolChoice();
 };
 
+
+rainbow.onclick = () =>  {
+  removeActive();
+  currentTool = rainbow;
+  changePenColor("#" + randomColorGen());
+  mouseDown = 0;
+  toolChoice();
+};
 
 eraser.onclick = () =>  {
   removeActive();
   currentTool = eraser;
+  changePenColor("");
+  mouseDown = 0;
   toolChoice();
 };
 
-
 clearButton.onclick = function () {
+  removeActive();
   changeGridSize(currentGridSize);
+  currentTool = penTool;
+  currentColor = currentColor = penTool.value;
+  mouseDown = 0;
   toolChoice();
 };
 
@@ -69,7 +89,15 @@ function toolChoice() {
     }
   if (currentTool == eraser) {
     changePenColor("");
+    mouseDown = 0;
     eraser.classList.add("active");
+  }
+  if (currentTool == bgPicker) {
+    bgLabel.classList.add("active");
+  }
+  if (currentTool == rainbow) {
+    changePenColor("#" + randomColorGen());
+    rainbow.classList.add("active");
   }
 }
 
@@ -112,7 +140,7 @@ function clearGrid() {
   gridContainer.innerHTML = "";
 }
 
-//Create grids - from https://tinyurl.com/mrxutdkn
+//Create grids - stolen from https://tinyurl.com/mrxutdkn
 function createGrid(size) {
   let cellTotal = size * size;
   gridContainer.style.setProperty("--grid-rows", size);
@@ -127,24 +155,29 @@ function createGrid(size) {
   }
 }
 
-//add rainbow logic here currentColor = randomColorGen(); 
-
 function changeCellColor(e) {
+  if (currentTool == rainbow) {
+    changePenColor("#" + randomColorGen())};
   e.style.backgroundColor = currentColor;
 }
 
-
-//This section tells me if the mouse is being held down
+//*****Still owe Mouse Debounce Stuff here*****
 let mouseDown = 0;
 document.onmousedown = () => {
   ++mouseDown;
-  console.log(mouseDown)
 };
 
 document.onmouseup = () => {
   mouseDown = false;
-  console.log(mouseDown)
 };
+
+document.ontouchstart = () => {
+  ++mouseDown;
+}
+
+document.ontouchend = () => {
+  mouseDown = false;
+}
 
 gridContainer.addEventListener('mouseover', function (e) {
   if (e.target.id == "cell") {cell = e.target};
@@ -154,8 +187,26 @@ gridContainer.addEventListener('mouseover', function (e) {
   }
 });
 
+//*****Touch pad section*****
+/* function isTouchEnabled() {
+  return ('ontouchmove' in window) ||
+  (navigator.maxTouchPoints > 0) ||
+  (navigator.maxTouchPoints,msMaxTouchPoints > 0);
+}
+
+gridContainer.addEventListener('touchmove', function (e) {
+  let touch = e.changedTouches[0];
+  if (touch.target.id == "cell") {cell = touch.target}
+  cell.ontouchmove = () => changeCellColor(cell);
+  if (isTouchEnabled()){changeCellColor(cell);
+  }
+})*/
+
+
 window.onload = () => {
   createGrid(DEFAULT_SIZE);
   penLabel.classList.add("active");
   toolChoice();
 };
+
+
